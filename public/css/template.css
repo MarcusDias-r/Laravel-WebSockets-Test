@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    color: white;
+}
+
+#appContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(20, 20, 20) ;
+}
+
+.appContainer{
+    display: flex;
+    flex: 1;
+    max-width: 1300px;
+    box-shadow: 0 0 5px rgb(92, 92, 92);
+    height: 80vh;
+    background-color: rgb(32, 32, 32) ;
+}
+
+.app-window{
+    display: flex;
+    width: 100%;
+}
+
+.left-side-bar{
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    border-right: 1px solid rgb(194, 193, 193);
+    
+}
+
+.left-tabs{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.left-tabs .tabs{
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid rgb(194, 193, 193);
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+}
+
+.left-tabs .tabs:nth-child(1){
+    border-right: 1px solid rgb(194, 193, 193);
+}
+
+.friends-list{
+    padding: 5px;
+}
+
+.user-card{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.user-card .user-name{
+    padding-left: 10px;
+}
+
+.user-card:hover{
+    background-color: rgb(40, 40, 40);
+    box-shadow: 0 0 2px rgb(45, 45, 45);
+}
+
+.user-active{
+    background-color: rgb(46, 46, 46);
+    box-shadow: 0 0 2px rgb(45, 45, 45);
+}
+
+.main-area{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.main-tabs{
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-tabs .tabs{
+    display: flex;
+    flex: 1;
+    border-bottom: 1px solid rgb(194, 193, 193);
+    border-right: 1px solid rgb(194, 193, 193);
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+
+.main-tabs .tabs:nth-last-child(1){
+    border-right: none;
+}
+
+.left-tabs .active,
+.main-tabs .active
+{
+    border-bottom: none;
+}
+
+.tabs{
+    cursor: pointer;
+}
+.main-area-content{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    height: 100%;
+}
+.main-feed-area{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.main-input-area{
+    display: flex;
+    
+    width: 100%;
+}
+
+.messages{
+    border: 1px solid rgb(190, 190, 190);
+    padding: 20px;
+    max-width: 50%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+.user-info{
+    display: flex;
+    align-items: center;
+}
+.name-and-date{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+.photo-frame{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.photo-frame img{
+    width: 45px;
+    object-fit: cover;
+}
+
+.messages .message{
+    padding: 10px;
+    margin-left: 40px;
+}
+
+.from-me{
+    align-self: flex-end;;
+    justify-self: flex-end;
+}
+
+.main-input-area form{
+    display: flex;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgb(190, 190, 190);
+}
+
+.main-input-area textarea{
+    width: 100%;
+    line-height: 20px;
+    height: 60px;
+    font-size: 17px;
+    border: none;
+    resize: none;
+    overflow: auto;
+    outline: none;
+    background-color: rgb(18, 18, 18);
+}
+
+.main-input-area button{
+    width: 100px;
+    font-size: 16px;
+    border: none;
+    border-left: 1px solid rgb(190, 190, 190);
+    background-color: rgb(18, 18, 18);
+}
