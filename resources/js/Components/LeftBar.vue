@@ -36,12 +36,12 @@ export default ({
 
     getUsers(){
 
-        // axios.get(route('users.all')).then(
-        //     (response)=>{
-        //         this.users = response.data
-        //         console.log(this.users);
-        //     }
-        // )
+        axios.get(route('users.all')).then(
+            (response)=>{
+                this.users = response.data
+                console.log(this.users);
+            }
+        )
     }
 
   },

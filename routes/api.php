@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum', 'verified'])->prefix('/users')->group(function () {
     
-    Route::get('/getAll', [UserController::class, 'getAll'])->name('user.all');
+    Route::get('/getAll', [UserController::class, 'getAll'])->name('users.all');
     
 });
+
