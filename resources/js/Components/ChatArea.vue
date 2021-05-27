@@ -2,32 +2,40 @@
     
     <div class="main-area">
 
-        <div class="main-tabs">
-            <div class="tabs active">Primeira</div>
-            <div class="tabs">Segunda</div>
-            <div class="tabs">Terceira</div>
+        <div class="main-tabs" >
+            <div class="tabs" 
+                v-for="chat in openChats" :key="chat"
+                @click="activateChat(chat.id)"
+                :class="(chat.id === activeChat)?'active':''"
+            >
+                {{chat.name}}
+            </div>
+            
         </div>
 
         <div class="main-area-content">
 
             <div class="main-feed-area">
                 
-                <div class="messages from-me">
-
+                <div class="messages"
+                    v-for="message in messages" :key="message.id"
+                    :class="(this.loggedUser.id === message.from)? 'from-me':'from-other'"
+                >
+                        
                     <div class="user-info">
                         <div class="photo-frame">
                             <img src="/img/avatar.png" alt="">
                         </div>
                         <div class="name-and-date">
-                            <span>User Name</span>
+                            <span>{{message.user.name}}</span>
                             <small>20/20/2020</small>
                         </div>
                     </div>
 
                     
                     <div class="message">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit magni cumque impedit qui doloremque saepe magnam repellendus earum consequatur ab eveniet fugiat perferendis consequuntur, amet soluta? Laudantium nihil nesciunt excepturi.
-                    </div>
+                        {{message.content}}
+                   </div>
 
                 </div>
                 
@@ -45,3 +53,43 @@
     </div>
 
 </template>
+<script>
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/inertia-vue3'
+
+export default({
+
+    setup() {
+        const loggedUser = computed(() => usePage().props.value.auth.user)
+        return { loggedUser }
+    },
+
+    data(){
+        return{
+            activeChat:null,
+            messages:null
+        }
+    },
+
+    props:{
+        openChats:Array
+    },
+
+    methods:{
+        async activateChat(id){
+            this.activeChat = id
+            let myId     = this.loggedUser.id;
+
+            await axios.post(route('get.messages'),{'myId':myId, 'friendId':id}).then(
+                (response)=>{
+
+                   this.messages = response.data.messages
+
+                } 
+            )
+            
+        }
+    }
+
+})
+</script>

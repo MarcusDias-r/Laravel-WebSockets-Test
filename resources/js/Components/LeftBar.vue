@@ -8,13 +8,16 @@
 
         <div class="friends-list">
 
-            <div class="user-card user-active">
+            <div class="user-card user-active" 
+                v-for="user in users" :key="user.id"
+                @click="openChat(user)"
+            >
                 <div class="photo-frame">
                     <img src="/img/avatar.png" alt="">
                 </div>
 
                 <div class="user-name">
-                    <span>User Name</span>
+                    <span>{{user.name}}</span>
                 </div>
             </div>
 
@@ -39,9 +42,14 @@ export default ({
         axios.get(route('users.all')).then(
             (response)=>{
                 this.users = response.data
-                console.log(this.users);
             }
         )
+    },
+
+    openChat(user){
+
+        this.$emit('openChat', user);
+
     }
 
   },
