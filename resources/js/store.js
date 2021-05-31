@@ -18,10 +18,9 @@ export const store = createStore({
 
     actions:{
 
-
+        
 
     },
 
     plugins: [createPersistedState()],
-
 });

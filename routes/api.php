@@ -23,7 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum', 'verified'])->prefix('/users')->group(function () {
     
     Route::get ('/getAll',      [UserController::class,     'getAll'])->name('users.all');
+    Route::get('/user_status',  [UserController::class,     'defineOnlineSessionUsers'])->name('is.online');
     Route::post('/getMessages', [MessagesController::class, 'getMessages'])->name('get.messages');
     Route::post('/sendMessage', [MessagesController::class, 'sendMessage'])->name('send.message');
+
 });
 

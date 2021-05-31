@@ -12,8 +12,11 @@
                 v-for="user in users" :key="user.id"
                 @click="openChat(user)"
             >
-                <div class="photo-frame">
+                <div class="photo-frame"
+                :class="(onlineFriendsArray.includes(user.id))?'onlineStatus':'offline'"
+                >
                     <img src="/img/avatar.png" alt="">
+               
                 </div>
 
                 <div class="user-name">
@@ -31,7 +34,8 @@ export default ({
 
   data(){
     return{
-        users:[]
+        users:[],
+        onlineFriendsArray:[],
     }
   },
   
@@ -50,13 +54,33 @@ export default ({
 
         this.$emit('openChat', user);
 
+    },
+
+    async userStatus(){
+        let response =  await axios.get(route('is.online'));
+        this.onlineFriendsArray = response.data;
     }
 
   },
 
   mounted(){
-      this.getUsers();
+        this.getUsers();
+        this.userStatus();
+
+        setInterval(()=>{
+            
+            this.userStatus();
+
+        }, 60000)
   }
 
 })
 </script>
+<style>
+
+    .onlineStatus{
+        border: 1px solid rgb(28, 196, 28);
+        box-shadow: 0px 0px 6px rgb(28, 196, 28);
+    }
+
+</style>

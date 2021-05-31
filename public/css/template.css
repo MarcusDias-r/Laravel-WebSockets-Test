@@ -121,6 +121,7 @@
     flex-direction: column;
     padding: 30px;
     height: 100%;
+    overflow: hidden;
 }
 .main-feed-area{
     display: flex;
