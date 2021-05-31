@@ -41,9 +41,10 @@
                 
             </div>
 
-            <div class="main-input-area">
-                <form action="">
-                    <textarea name="" id="" cols="30" rows="1"></textarea>
+            <div class="main-input-area" v-if="activeChat">
+                <form @submit.prevent="sendMessage($event)">
+                    <input type="hidden" name="to_user" :value="activeChat">
+                    <textarea name="message" id="" cols="30" rows="1"></textarea>
                     <button>Enviar</button>
                 </form>
             </div>
@@ -55,7 +56,7 @@
 </template>
 <script>
 import { computed } from 'vue'
-import { usePage } from '@inertiajs/inertia-vue3'
+import { usePage }  from '@inertiajs/inertia-vue3'
 
 export default({
 
@@ -87,7 +88,27 @@ export default({
 
                 } 
             )
+        },
+
+        sendMessage(event){
+
+            const {to_user, message} = Object.fromEntries(new FormData(event.target));
+            axios.post(route('send.message'),{to:to_user, content:message}).then(
+                ()=>{
+                    console.log(this.messages);
+                    this.messages.push({
+                        from: this.loggedUser.id,
+                        to: to_user,
+                        content: message,
+                        user:{
+                            name:this.loggedUser.name
+                        }
+                    });
+                }
+            )
             
+            
+
         }
     }
 
