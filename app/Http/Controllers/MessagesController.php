@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendMessage;
+use App\Events\SendMessage\SendMessage as SendMessageSendMessage;
 use App\Models\Message;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,6 +53,7 @@ class MessagesController extends Controller
         $message->content = $request->content;
         $message->save();
 
+        Event::dispatch(new SendMessage($message, $request->to));
     }
 
 

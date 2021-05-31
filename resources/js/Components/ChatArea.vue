@@ -5,7 +5,7 @@
         <div class="main-tabs" >
             <div class="tabs" 
                 v-for="chat in openChats" :key="chat"
-                @click="activateChat(chat.id)"
+                @click="activateChat(chat.id, chat.name)"
                 :class="(chat.id === activeChat)?'active':''"
             >
                 {{chat.name}}
@@ -19,7 +19,7 @@
                 
                 <div class="messages"
                     v-for="message in messages" :key="message.id"
-                    :class="(this.loggedUser.id === message.from)? 'from-me':'from-other'"
+                    :class="(this.loggedUser.id === message.from)? 'from-me cf_id'+activeChat:'from-other cf_id'+activeChat"
                 >
                         
                     <div class="user-info">
@@ -68,16 +68,26 @@ export default({
     data(){
         return{
             activeChat:null,
+            activeChatName:null,
             messages:null
         }
     },
 
     props:{
-        openChats:Array
+        openChats:Object
     },
 
     methods:{
-        async activateChat(id){
+        scrollToBottom: function(){
+
+                if(this.messages.length){
+                    setTimeout(()=>{
+                        document.querySelector('.cf_id'+this.activeChat+':last-child').scrollIntoView()
+                    },300)
+                }
+            },
+
+        async activateChat(id, chat_name){
             this.activeChat = id
             let myId     = this.loggedUser.id;
 
@@ -88,6 +98,9 @@ export default({
 
                 } 
             )
+
+            this.activeChatName = chat_name
+            this.scrollToBottom();
         },
 
         sendMessage(event){
@@ -95,7 +108,7 @@ export default({
             const {to_user, message} = Object.fromEntries(new FormData(event.target));
             axios.post(route('send.message'),{to:to_user, content:message}).then(
                 ()=>{
-                    console.log(this.messages);
+                    //console.log(this.messages);
                     this.messages.push({
                         from: this.loggedUser.id,
                         to: to_user,
@@ -106,10 +119,28 @@ export default({
                     });
                 }
             )
-            
-            
+            this.scrollToBottom();
+        },
 
-        }
+
+    },
+    mounted(){
+        
+        Echo.private(`user.${this.loggedUser.id}`).listen('.SendMessage',(e)=>{
+        
+            if(e.message.from === this.activeChat){
+                //console.log('testando ', this.friendData.name);
+                 this.messages.push({
+                        from: e.message.from,
+                        to: e.message.to,
+                        content: e.message.content,
+                        user:{
+                            name:this.activeChatName
+                        }
+                    });
+                this.scrollToBottom();
+            }
+        });
     }
 
 })
